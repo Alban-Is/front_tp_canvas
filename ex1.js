@@ -1,3 +1,11 @@
+class circle{
+    constructor(x,y,r,color){
+        this.x = x
+        this.y = y
+        this.r = r
+        this.color = color
+    }
+}
 class canvasEditor {
     constructor(canvasId) {
         var canvas = document.getElementById(canvasId)
@@ -6,6 +14,10 @@ class canvasEditor {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas
         this.tool = "circle"
+        this.save_btn = document.getElementById('btn_save')
+        this.delete_btn = document.getElementById('btn_delete')
+        this.load_btn = document.getElementById('btn_load')
+        this.saveData = []
     }
 
     getMouseClick() {
@@ -21,7 +33,6 @@ class canvasEditor {
                 current.drawCircle(pos.x, pos.y)
             }
         })
-
     }
     showCoords(event, ix, iy) {
         var x = event.clientX;
@@ -33,13 +44,68 @@ class canvasEditor {
         return (pos)
     }
 
-    drawCircle(x, y) {
-        this.ctx.fillStyle = getRandomColor();
+    drawCircle(x, y,r = null,color = null) {
+
+        //set var
+        if(!r) var r = getRandomInt(10,100);
+        if(!color) var color = getRandomColor();
+        //draw the circle
+        this.ctx.fillStyle = color
         this.ctx.beginPath();
-        this.ctx.arc(x, y, getRandomInt(10,100), 0, 2 * Math.PI);
+        this.ctx.arc(x, y, r, 0, 2 * Math.PI);
         this.ctx.fill();
+        //save data
+        var currentCircle = new circle(x,y,r,color)
+        this.saveData.push(currentCircle)
+        console.log(this.saveData)
+
+    }
+
+    clearCanvas(){
+        this.ctx.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight);
+    }
+
+    save(){
+        this.save_btn.addEventListener('click',event=>{
+            console.log('save')
+            sessionStorage.setItem('data',JSON.stringify(this.saveData));
+        })
+    }
+    load(){
+        this.load_btn.addEventListener('click',event=>{
+            console.log('load')
+            const loadData = JSON.parse(sessionStorage.getItem('data'));
+            console.log(loadData)
+            this.clearCanvas()
+            for (const key in loadData) {
+                if (loadData.hasOwnProperty(key)) {
+                    const element = loadData[key];
+                    console.log(element)
+                    this.drawCircle(element.x,element.y,element.r,element.color)
+                }
+            }
+        })
+    }
+
+    hud(){
+        canvasEditor_obj.save()
+        canvasEditor_obj.delete()
+        canvasEditor_obj.load()
+    }
+
+    delete(){
+        this.delete_btn.addEventListener('click',event=>{
+            console.log('delete')
+            this.saveData = []
+            this.clearCanvas()
+        })
     }
 }
+
+
+//----------------------------------------------------------------------------------
+//----- GENERAL FUNCTION -----------------------------------------------------------
+//----------------------------------------------------------------------------------
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -53,5 +119,10 @@ function getRandomInt(min,max) {
     return Math.floor(Math.random() * Math.floor(max)) + min;
 }
 
+//----------------------------------------------------------------------------------
+//----- USE ------------------------------------------------------------------------
+//----------------------------------------------------------------------------------
+
 var canvasEditor_obj = new canvasEditor('canvas')
 canvasEditor_obj.getMouseClick()
+canvasEditor_obj.hud()
