@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/10286bd3a1.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu+2:regular,500,600,700,800" rel="stylesheet" />
+    <title>Front tp canvas</title>
+</head>
+<style>
+    body{
+        margin: 0;
+        background-color: rgb(170, 194, 216);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    h1{
+        font-family: 'Baloo Tammudu 2';
+        font-size: xx-large;
+        margin: 0;
+    }
+    canvas{
+        border: 7px white solid;
+        border-radius: 5px;
+        background-color: white;
+    }
+    .ctn-btn{
+        margin-top: 20px;
+        display: flex;
+    }
+    .btn{
+        padding: 7px;
+        background-color: white;
+        color: rgb(7, 7, 90);
+        border-radius: 5px;
+        margin: 5px;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-separe{
+        width: 20px;
+        display: block;
+    }
+    
+    .btn:hover{
+        color: rgb(255, 155, 6);
+    }
+</style>
+<body>
+    <section class="container">
+        <h1>My canvas</h1>
+        <canvas id="canvas" width="700" height="500">
+    
+        </canvas>
+        <div class="ctn-btn">
+            <a class="btn" href=""><i class="fas fa-trash"></i></a>
+            <a class="btn" href=""><i class="fas fa-edit"></i></a>
+            <a class="btn" href=""><i class="fas fa-save"></i></a>
+            <a class="btn" href=""><i class="fas fa-file-download"></i></a>
+            <span class="btn-separe"></span>
+            <a class="btn" href=""><i class="far fa-circle"></i></a>
+        </div>
+        <script src="ex1.js"></script>
+    </section>
+</body>
+</html>
